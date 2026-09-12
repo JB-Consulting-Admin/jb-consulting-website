@@ -19,6 +19,7 @@
     --ink-soft:#78675a;
     --white:#FFFFFF;
     --line:rgba(201,162,39,0.35);
+    --container-pad:clamp(20px,5vw,48px);
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -33,48 +34,16 @@
   a{color:inherit;text-decoration:none;}
   img{max-width:100%;display:block;}
 
-  /* ===== Prototype toolbar (not part of live site — orientation only) ===== */
-  .proto-bar{
-    background:var(--maroon-900);
-    color:var(--cream-deep);
-    font-family:'IBM Plex Mono',monospace;
-    font-size:11px;
-    letter-spacing:.08em;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:9px 22px;
-    position:sticky;
-    top:0;
-    z-index:100;
-    border-bottom:1px solid var(--gold);
-  }
-  .proto-bar .tag{color:var(--gold-light);text-transform:uppercase;}
-  .proto-tabs{display:flex;gap:4px;flex-wrap:wrap;}
-  .proto-tabs button{
-    background:transparent;
-    border:1px solid rgba(201,162,39,0.4);
-    color:var(--cream-deep);
-    font-family:'IBM Plex Mono',monospace;
-    font-size:10.5px;
-    letter-spacing:.05em;
-    padding:5px 10px;
-    cursor:pointer;
-    border-radius:2px;
-    transition:all .15s;
-    text-transform:uppercase;
-  }
-  .proto-tabs button:hover{border-color:var(--gold);color:var(--gold-light);}
-  .proto-tabs button.active{background:var(--gold);color:var(--maroon-900);border-color:var(--gold);}
-
   /* ===== Site header ===== */
   .site-header{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:22px 48px;
+    padding:clamp(14px,2.5vw,22px) var(--container-pad);
     border-bottom:1px solid var(--line);
     background:var(--white);
+    position:relative;
+    gap:16px;
   }
   .logo-lockup{display:flex;align-items:center;gap:14px;cursor:pointer;}
   .logo-mark{
@@ -100,7 +69,7 @@
     color:var(--ink-soft);
     margin-top:3px;
   }
-  nav.main-nav{display:flex;gap:34px;align-items:center;}
+  nav.main-nav{display:flex;gap:clamp(16px,1.8vw,34px);align-items:center;flex-wrap:nowrap;}
   nav.main-nav a{
     font-family:'IBM Plex Mono',monospace;
     font-size:12px;
@@ -113,7 +82,10 @@
   }
   nav.main-nav a:hover, nav.main-nav a.active{color:var(--maroon-700);border-bottom-color:var(--gold);}
   .btn{
-    display:inline-block;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:44px;
     font-family:'IBM Plex Mono',monospace;
     font-size:11.5px;
     letter-spacing:.08em;
@@ -125,6 +97,7 @@
     background:transparent;
     transition:all .18s;
     border-radius:1px;
+    white-space:nowrap;
   }
   .btn:hover{background:var(--gold);color:var(--white);}
   .btn-solid{background:var(--maroon-700);color:var(--white);border-color:var(--maroon-700);}
@@ -132,11 +105,73 @@
   .btn-ghost-light{border-color:var(--gold-light);color:var(--cream-deep);}
   .btn-ghost-light:hover{background:var(--gold);color:var(--maroon-900);}
 
+  /* Reset for logo-lockup when rendered as a real <button> for accessibility */
+  button.logo-lockup{background:none;border:none;padding:0;font:inherit;text-align:left;}
+
+  :focus-visible{outline:2px solid var(--maroon-700);outline-offset:3px;}
+
+  /* ===== Mobile navigation (hamburger + dropdown menu) ===== */
+  .hamburger{
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    gap:5px;
+    width:40px;
+    height:40px;
+    background:none;
+    border:1px solid var(--line);
+    border-radius:1px;
+    cursor:pointer;
+    padding:0;
+    flex-shrink:0;
+  }
+  .hamburger span{
+    display:block;
+    width:20px;
+    height:2px;
+    margin:0 auto;
+    background:var(--maroon-700);
+    transition:transform .2s ease, opacity .2s ease;
+  }
+  .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .hamburger.open span:nth-child(2){opacity:0;}
+  .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+  .mobile-menu{
+    display:none;
+    position:absolute;
+    top:100%;
+    left:0;
+    right:0;
+    flex-direction:column;
+    background:var(--white);
+    border-bottom:1px solid var(--line);
+    padding:8px var(--container-pad) 22px;
+    box-shadow:0 18px 34px -20px rgba(61,7,20,.35);
+    z-index:90;
+  }
+  .mobile-menu.open{display:flex;animation:fade .18s ease;}
+  .mobile-menu a{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--ink);
+    padding:14px 2px;
+    border-bottom:1px solid var(--line);
+    min-height:44px;
+    display:flex;
+    align-items:center;
+  }
+  .mobile-menu a:last-of-type{border-bottom:none;}
+  .mobile-menu a.active, .mobile-menu a:hover{color:var(--maroon-700);}
+  .mobile-menu .btn{margin-top:14px;width:100%;}
+
   /* ===== Page shell ===== */
   .page{display:none;}
   .page.active{display:block;animation:fade .25s ease;}
   @keyframes fade{from{opacity:0}to{opacity:1}}
-  section{padding:80px 48px;}
+  section{padding:clamp(48px,8vw,80px) var(--container-pad);}
   .narrow{max-width:1080px;margin:0 auto;}
   .eyebrow{
     font-family:'IBM Plex Mono',monospace;
@@ -151,18 +186,18 @@
   }
   .eyebrow::before{content:"§";color:var(--maroon-700);font-family:'Playfair Display',serif;}
   .eyebrow.on-dark{color:var(--gold-light);}
-  h2.section-title{font-size:34px;font-weight:600;color:var(--maroon-700);margin:0 0 16px;line-height:1.2;}
-  p.lede{font-size:17px;color:var(--ink-soft);line-height:1.7;max-width:680px;}
+  h2.section-title{font-size:clamp(24px,3.2vw,34px);font-weight:600;color:var(--maroon-700);margin:0 0 16px;line-height:1.25;}
+  p.lede{font-size:clamp(15px,1.6vw,17px);color:var(--ink-soft);line-height:1.7;max-width:680px;}
   hr.gold{border:none;border-top:1px solid var(--line);margin:0;}
 
   /* ===== Hero (page 1) ===== */
   .hero{
     background:var(--cream);
-    padding:100px 48px 90px;
+    padding:clamp(56px,10vw,100px) var(--container-pad) clamp(48px,8vw,90px);
     border-bottom:1px solid var(--line);
   }
   .hero h1{
-    font-size:52px;
+    font-size:clamp(30px,5.2vw,52px);
     line-height:1.18;
     font-weight:600;
     color:var(--ink);
@@ -175,11 +210,11 @@
     font-weight:600;
   }
   .hero .lede{margin-bottom:36px;}
-  .hero .cta-row{display:flex;gap:16px;}
+  .hero .cta-row{display:flex;flex-wrap:wrap;gap:16px;}
 
   /* ===== Cards / grids ===== */
-  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:44px;}
-  .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;margin-top:44px;}
+  .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px;margin-top:44px;}
+  .grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px;margin-top:44px;}
   .stream-card{
     border:1px solid var(--line);
     padding:30px 26px;
@@ -228,14 +263,14 @@
   .cta-banner{
     background:var(--maroon-900);
     color:var(--white);
-    padding:70px 48px;
+    padding:clamp(48px,8vw,70px) var(--container-pad);
     text-align:center;
   }
-  .cta-banner h2{color:var(--white);font-size:30px;margin:0 0 14px;}
+  .cta-banner h2{color:var(--white);font-size:clamp(22px,3vw,30px);margin:0 0 14px;}
   .cta-banner p{color:var(--cream-deep);max-width:560px;margin:0 auto 30px;font-size:15.5px;line-height:1.7;}
 
   /* ===== Services page ===== */
-  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:46px;}
+  .svc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:26px;margin-top:46px;}
   .svc-card{
     border:1px solid var(--line);
     padding:26px 24px;
@@ -258,10 +293,10 @@
     border-left:3px solid var(--gold);
     padding:8px 0 8px 30px;
   }
-  .quote-box p{font-family:'Playfair Display',serif;font-style:italic;font-size:22px;color:var(--maroon-700);line-height:1.5;margin:0;}
+  .quote-box p{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(17px,2.2vw,22px);color:var(--maroon-700);line-height:1.5;margin:0;}
 
   /* ===== Pricing page ===== */
-  .price-tier-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:40px;}
+  .price-tier-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;margin-top:40px;}
   .price-card{border:1px solid var(--line);background:var(--white);display:flex;flex-direction:column;}
   .price-card.feature{border-color:var(--gold);box-shadow:0 12px 28px -18px rgba(201,162,39,.6);}
   .price-card .head{padding:22px 20px;border-bottom:1px solid var(--line);}
@@ -290,20 +325,24 @@
     font-style:italic;
   }
 
+  /* ===== Table responsiveness ===== */
+  .table-scroll{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .table-scroll table{min-width:520px;}
+
   /* ===== Startup page ===== */
   .startup-hero{
     background:linear-gradient(135deg,var(--maroon-900),var(--maroon-700));
     color:var(--white);
-    padding:90px 48px;
+    padding:clamp(56px,9vw,90px) var(--container-pad);
     text-align:center;
   }
   .startup-hero .eyebrow2{
     font-family:'IBM Plex Mono',monospace;
     font-size:12px;letter-spacing:.16em;color:var(--gold-light);text-transform:uppercase;margin-bottom:18px;
   }
-  .startup-hero h1{font-size:38px;margin:0 0 18px;color:var(--white);}
+  .startup-hero h2{font-size:clamp(26px,4.5vw,38px);margin:0 0 18px;color:var(--white);}
   .startup-hero p.quote{
-    font-family:'Playfair Display',serif;font-style:italic;font-size:20px;
+    font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(16px,2.4vw,20px);
     color:var(--cream-deep);max-width:640px;margin:0 auto 26px;line-height:1.6;
   }
   .startup-hero .price-pill{
@@ -348,12 +387,12 @@
   .t-item h3{font-size:17px;color:var(--maroon-700);margin:0 0 6px;font-family:'Playfair Display',serif;}
   .t-item p{font-size:13.5px;color:var(--ink-soft);margin:0;line-height:1.6;max-width:560px;}
 
-  .values-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:20px;}
+  .values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;margin-top:20px;}
   .value-card{border:1px solid var(--line);padding:20px 18px;background:var(--cream);}
   .value-card h4{font-size:14px;color:var(--maroon-700);margin:0 0 8px;font-family:'Playfair Display',serif;}
   .value-card p{font-size:12px;color:var(--ink-soft);margin:0;line-height:1.55;}
 
-  .vm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:10px;}
+  .vm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:26px;margin-top:10px;}
   .vm-card{padding:26px 0;}
   .vm-card .lbl{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:.1em;margin-bottom:10px;text-transform:uppercase;}
   .vm-card p{font-size:14px;color:var(--ink-soft);line-height:1.65;}
@@ -366,8 +405,8 @@
     text-transform:uppercase;color:var(--maroon-700);margin-bottom:7px;
   }
   .field input, .field select, .field textarea{
-    width:100%;border:1px solid var(--line);padding:12px 14px;font-family:'Inter',sans-serif;
-    font-size:13.5px;color:var(--ink);background:var(--white);outline:none;transition:border-color .15s;
+    width:100%;min-height:44px;border:1px solid var(--line);padding:12px 14px;font-family:'Inter',sans-serif;
+    font-size:16px;color:var(--ink);background:var(--white);outline:none;transition:border-color .15s;
   }
   .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--gold);}
   .field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
@@ -377,11 +416,24 @@
   .contact-panel .ci .k{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
   .contact-panel .ci .v{font-size:14.5px;color:var(--ink);}
 
+  .form-status{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    letter-spacing:.03em;
+    padding:12px 16px;
+    border:1px solid var(--line);
+    display:none;
+  }
+  .form-status.show{display:block;}
+  .form-status.success{border-color:var(--gold);color:var(--maroon-700);background:var(--cream);}
+  .form-status.error{border-color:#a83232;color:#a83232;background:#fbecec;}
+  .field.honeypot{position:absolute;left:-9999px;top:-9999px;}
+
   /* ===== Site footer ===== */
   footer.site-footer{
     background:var(--maroon-900);
     color:var(--cream-deep);
-    padding:56px 48px 28px;
+    padding:clamp(36px,6vw,56px) var(--container-pad) clamp(20px,3vw,28px);
   }
   .foot-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;padding-bottom:36px;border-bottom:1px solid rgba(201,162,39,.25);}
   .foot-brand .logo-mark{color:var(--gold-light);}
@@ -392,55 +444,70 @@
     font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
     color:var(--gold-light);margin:0 0 16px;
   }
-  .foot-col a{display:block;font-size:13px;color:var(--cream-deep);opacity:.85;margin-bottom:10px;}
+  .foot-col a, .foot-col .foot-text{display:block;font-size:13px;color:var(--cream-deep);opacity:.85;margin-bottom:10px;}
   .foot-col a:hover{color:var(--gold-light);}
-  .foot-bottom{display:flex;justify-content:space-between;padding-top:22px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(251,246,234,.55);}
+  .foot-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 24px;padding-top:22px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(251,246,234,.55);}
 
-  @media(max-width:1000px){
-    .grid-3,.svc-grid,.price-tier-grid,.values-grid,.vm-grid{grid-template-columns:repeat(2,1fr);}
-    .contact-grid{grid-template-columns:1fr;}
+  /* Collapse to hamburger before the desktop nav can collide with the logo/CTA button
+     (measured to avoid overlap through the 1024–1180px laptop/tablet-landscape range) */
+  @media(max-width:1200px){
+    nav.main-nav{display:none;}
+    .hamburger{display:flex;}
+  }
+  /* Hide the header's full-width CTA label on narrow phones; it remains in the mobile menu */
+  @media(max-width:600px){
+    .header-cta{display:none;}
+  }
+  /* Stack layouts that are only comfortable as two columns from tablet width up */
+  @media(max-width:880px){
+    .contact-grid{grid-template-columns:1fr;gap:40px;}
+    .contact-panel{border-left:none;padding-left:0;border-top:1px solid var(--line);padding-top:32px;}
     .journey{flex-direction:column;gap:24px;}
     .journey::before{display:none;}
-    nav.main-nav{display:none;}
+  }
+  /* Small mobile: stack paired form fields for comfortable touch input */
+  @media(max-width:480px){
+    .field-row{grid-template-columns:1fr;}
+    .cta-row{flex-direction:column;align-items:stretch;}
   }
 </style>
 </head>
 <body>
 
-<!-- ================= PROTOTYPE ORIENTATION BAR (mockup aid, not part of live site) ================= -->
-<div class="proto-bar">
-  <span class="tag">Website Design Mockup — JB Consulting · Maroon &amp; Gold</span>
-  <div class="proto-tabs">
-    <button data-page="1" class="active">1 · Overview</button>
-    <button data-page="2">2 · Services</button>
-    <button data-page="3">3 · Pricing</button>
-    <button data-page="4">4 · Startup Programme</button>
-    <button data-page="5">5 · Approach</button>
-    <button data-page="6">6 · Contact</button>
-  </div>
-</div>
-
 <!-- ================= SITE HEADER ================= -->
 <header class="site-header">
-  <div class="logo-lockup" data-page="1">
+  <button type="button" class="logo-lockup" data-page="1" aria-label="JB Consulting — go to Overview">
     <div class="logo-mark">JB</div>
     <div class="logo-divider"></div>
     <div class="logo-text-block">
       <div class="name">CONSULTING</div>
       <div class="sub">RISK MANAGEMENT CONSULTANTS</div>
     </div>
-  </div>
-  <nav class="main-nav">
-    <a data-page="1" class="active">Overview</a>
-    <a data-page="2">Services</a>
-    <a data-page="3">Pricing</a>
-    <a data-page="4">Startup Programme</a>
-    <a data-page="5">Approach</a>
-    <a data-page="6">Contact</a>
+  </button>
+  <nav class="main-nav" aria-label="Primary">
+    <a href="#" data-page="1" class="active">Overview</a>
+    <a href="#" data-page="2">Services</a>
+    <a href="#" data-page="3">Pricing</a>
+    <a href="#" data-page="4">Startup Programme</a>
+    <a href="#" data-page="5">Approach</a>
+    <a href="#" data-page="6">Contact</a>
   </nav>
-  <button class="btn btn-solid" data-page="6">Book Discovery Call</button>
+  <button class="btn btn-solid header-cta" data-page="6">Book Discovery Call</button>
+  <button type="button" class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+    <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+  </button>
+  <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile" aria-hidden="true">
+    <a href="#" data-page="1" class="active">Overview</a>
+    <a href="#" data-page="2">Services</a>
+    <a href="#" data-page="3">Pricing</a>
+    <a href="#" data-page="4">Startup Programme</a>
+    <a href="#" data-page="5">Approach</a>
+    <a href="#" data-page="6">Contact</a>
+    <button class="btn btn-solid" data-page="6">Book Discovery Call</button>
+  </nav>
 </header>
 
+<main>
 <!-- ================= PAGE 1 — OVERVIEW ================= -->
 <div class="page active" id="page-1">
   <section class="hero">
@@ -587,15 +654,18 @@
     <div class="eyebrow" style="margin-top:64px;">STREAM 2 · PROFESSIONAL SERVICES</div>
     <h2 class="section-title" style="font-size:26px;">Standard Consulting Rate — R500 / hour</h2>
     <p class="lede" style="font-size:14.5px;">Applicable to policy reviews and drafting, process mapping, SOP development, governance framework design, gap analyses, monitoring, internal audit support, remediation, POPIA/FICA/MLCO services, regulatory advice, and board or staff training.</p>
+    <div class="table-scroll">
     <table class="rate-table">
       <tr><th>Package</th><th>Hours</th><th>Rate</th><th>Total / Saving</th></tr>
       <tr><td>Standard (as needed)</td><td>Any</td><td>R500/hr</td><td>Variable</td></tr>
       <tr><td>10-Hour Bundle</td><td>10</td><td>R450/hr</td><td>R4,500 — 10% saving</td></tr>
       <tr><td>20-Hour Bundle</td><td>20</td><td>R425/hr</td><td>R8,500 — 15% saving</td></tr>
     </table>
+    </div>
 
     <div class="eyebrow" style="margin-top:64px;">STREAM 3 · REGULATORY LICENSING PROJECTS</div>
     <h2 class="section-title" style="font-size:26px;">Fixed fees for cost certainty.</h2>
+    <div class="table-scroll">
     <table class="rate-table">
       <tr><th>Service</th><th>Fee</th></tr>
       <tr><td>New Category I FSP Licence Application</td><td>R10,000 fixed fee (~20 hrs)</td></tr>
@@ -610,6 +680,7 @@
       <tr><td>POPIA implementation pack</td><td>R10,000 – R35,000</td></tr>
       <tr><td>AI governance setup</td><td>R15,000 – R60,000</td></tr>
     </table>
+    </div>
 
     <p class="disclaimer">Indicative pricing only — final scope, frequency and fees are confirmed in a proposal and engagement letter following a Discovery Call, and are proportionate to client complexity and risk profile. Excludes FSCA application fees, legal drafting, formal legal opinions and external audits.</p>
   </section>
@@ -619,7 +690,7 @@
 <div class="page" id="page-4">
   <div class="startup-hero">
     <div class="eyebrow2">STARTING A BUSINESS?</div>
-    <h1>The Startup GRC Programme</h1>
+    <h2>The Startup GRC Programme</h2>
     <p class="quote">"Practical GRC foundations for growing businesses — structured for where you are now, and designed to scale with you."</p>
     <div class="price-pill">From R2,500 / month</div>
   </div>
@@ -651,6 +722,7 @@
     </div>
 
     <div class="eyebrow" style="margin-top:60px;">ELIGIBILITY &amp; PROGRAMME CONTROLS</div>
+    <div class="table-scroll">
     <table class="elig-table">
       <tr><td>Business maturity</td><td>Generally less than 24 months in operation</td></tr>
       <tr><td>Entity complexity</td><td>Single entity unless specifically approved</td></tr>
@@ -659,6 +731,7 @@
       <tr><td>Migration</td><td>Formal review and transition to Growth pricing at programme end</td></tr>
       <tr><td>Additional work</td><td>Professional services rate or prepaid bundle applies</td></tr>
     </table>
+    </div>
 
     <div style="text-align:center;margin-top:56px;">
       <button class="btn btn-solid" data-page="6">Book a Discovery Call</button>
@@ -717,18 +790,23 @@
     <p class="lede">Book a complimentary 30-minute Discovery Call. We'll discuss your business structure, regulatory exposure and current governance, risk and compliance challenges, and — where appropriate — recommend a practical scope of support aligned to your business's needs and stage of growth.</p>
 
     <div class="contact-grid">
-      <form class="mock-form">
+      <form class="mock-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="0bbbbb97-1453-4b02-b3cd-a2e8d103592f">
+        <input type="hidden" name="subject" value="New Discovery Call Request — JB Consulting Website">
+        <input type="hidden" name="from_name" value="JB Consulting Website">
+        <input type="checkbox" name="botcheck" class="field honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+
         <div class="field-row">
-          <div class="field"><label>Full Name</label><input type="text" placeholder="Jane Botha"></div>
-          <div class="field"><label>Company</label><input type="text" placeholder="Your business name"></div>
+          <div class="field"><label for="cf-name">Full Name</label><input id="cf-name" name="name" type="text" placeholder="Jane Botha" required></div>
+          <div class="field"><label for="cf-company">Company</label><input id="cf-company" name="company" type="text" placeholder="Your business name"></div>
         </div>
         <div class="field-row">
-          <div class="field"><label>Email</label><input type="email" placeholder="you@company.co.za"></div>
-          <div class="field"><label>Phone</label><input type="text" placeholder="+27 XX XXX XXXX"></div>
+          <div class="field"><label for="cf-email">Email</label><input id="cf-email" name="email" type="email" placeholder="you@company.co.za" required></div>
+          <div class="field"><label for="cf-phone">Phone</label><input id="cf-phone" name="phone" type="text" placeholder="+27 XX XXX XXXX"></div>
         </div>
         <div class="field">
-          <label>Entity Type</label>
-          <select>
+          <label for="cf-entity">Entity Type</label>
+          <select id="cf-entity" name="entity_type">
             <option>Category I FSP</option>
             <option>Debt Counsellor</option>
             <option>Credit Provider</option>
@@ -738,8 +816,9 @@
             <option>Other</option>
           </select>
         </div>
-        <div class="field"><label>Tell us about your GRC needs</label><textarea rows="4" placeholder="A brief note on your business and current compliance challenges..."></textarea></div>
-        <button type="button" class="btn btn-solid" style="align-self:flex-start;margin-top:6px;">Book My Discovery Call</button>
+        <div class="field"><label for="cf-message">Tell us about your GRC needs</label><textarea id="cf-message" name="message" rows="4" placeholder="A brief note on your business and current compliance challenges..." required></textarea></div>
+        <button type="submit" class="btn btn-solid" style="align-self:flex-start;margin-top:6px;">Book My Discovery Call</button>
+        <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
       </form>
 
       <div class="contact-panel">
@@ -753,6 +832,7 @@
     </div>
   </section>
 </div>
+</main>
 
 <!-- ================= SITE FOOTER ================= -->
 <footer class="site-footer">
@@ -770,20 +850,20 @@
     </div>
     <div class="foot-col">
       <h5>Navigate</h5>
-      <a data-page="1">Overview</a>
-      <a data-page="2">Services</a>
-      <a data-page="3">Pricing</a>
-      <a data-page="4">Startup Programme</a>
+      <a href="#" data-page="1">Overview</a>
+      <a href="#" data-page="2">Services</a>
+      <a href="#" data-page="3">Pricing</a>
+      <a href="#" data-page="4">Startup Programme</a>
     </div>
     <div class="foot-col">
       <h5>Practice</h5>
-      <a data-page="5">Our Approach</a>
-      <a data-page="6">Book a Discovery Call</a>
+      <a href="#" data-page="5">Our Approach</a>
+      <a href="#" data-page="6">Book a Discovery Call</a>
     </div>
     <div class="foot-col">
       <h5>Get In Touch</h5>
-      <a>www.jbconsulting.co.za</a>
-      <a>South Africa · GRC Advisory</a>
+      <a href="https://www.jbconsulting.co.za" target="_blank" rel="noopener">www.jbconsulting.co.za</a>
+      <span class="foot-text">South Africa · GRC Advisory</span>
     </div>
   </div>
   <div class="foot-bottom">
@@ -794,20 +874,103 @@
 
 <script>
   const pages = document.querySelectorAll('.page');
-  const protoBtns = document.querySelectorAll('.proto-tabs button');
-  const navLinks = document.querySelectorAll('nav.main-nav a');
+  const navLinks = document.querySelectorAll('nav.main-nav a, .mobile-menu a');
+  const hamburger = document.getElementById('hamburgerBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  function openMenu(){
+    mobileMenu.classList.add('open');
+    hamburger.classList.add('open');
+    hamburger.setAttribute('aria-expanded','true');
+    hamburger.setAttribute('aria-label','Close menu');
+    mobileMenu.setAttribute('aria-hidden','false');
+  }
+  function closeMenu(){
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded','false');
+    hamburger.setAttribute('aria-label','Open menu');
+    mobileMenu.setAttribute('aria-hidden','true');
+  }
 
   function goToPage(n){
     pages.forEach(p => p.classList.remove('active'));
     document.getElementById('page-' + n).classList.add('active');
-    protoBtns.forEach(b => b.classList.toggle('active', b.dataset.page === String(n)));
     navLinks.forEach(a => a.classList.toggle('active', a.dataset.page === String(n)));
+    closeMenu();
     window.scrollTo({top:0, behavior:'instant'});
   }
 
   document.querySelectorAll('[data-page]').forEach(el => {
-    el.addEventListener('click', () => goToPage(el.dataset.page));
+    el.addEventListener('click', (e) => {
+      if (el.tagName === 'A') e.preventDefault();
+      goToPage(el.dataset.page);
+    });
   });
+
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.contains('open') ? closeMenu() : openMenu();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (mobileMenu.classList.contains('open') &&
+        !mobileMenu.contains(e.target) &&
+        !hamburger.contains(e.target)) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+      closeMenu();
+      hamburger.focus();
+    }
+  });
+
+  // ===== Contact form: Web3Forms submission =====
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    const statusEl = document.getElementById('formStatus');
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Honeypot: if a bot filled this hidden field, silently drop the submission
+      if (contactForm.botcheck && contactForm.botcheck.checked) return;
+
+      const originalText = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+      statusEl.className = 'form-status';
+      statusEl.textContent = '';
+
+      try {
+        const formData = new FormData(contactForm);
+        const response = await fetch(contactForm.action, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: formData
+        });
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          statusEl.textContent = 'Thank you — your Discovery Call request has been sent. We\'ll be in touch within 1 business day.';
+          statusEl.className = 'form-status show success';
+          contactForm.reset();
+        } else {
+          statusEl.textContent = data.message || 'Something went wrong sending your request. Please try again or email us directly.';
+          statusEl.className = 'form-status show error';
+        }
+      } catch (err) {
+        statusEl.textContent = 'Network error — please check your connection and try again.';
+        statusEl.className = 'form-status show error';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }
+    });
+  }
 </script>
 
 </body>
