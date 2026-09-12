@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JB Consulting — Website Design Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --maroon-900:#3D0714;
+    --maroon-700:#5C0A1E;
+    --maroon-600:#6E1423;
+    --gold:#C9A227;
+    --gold-light:#E3C669;
+    --cream:#FBF6EA;
+    --cream-deep:#F4E9C9;
+    --ink:#2B1810;
+    --ink-soft:#78675a;
+    --white:#FFFFFF;
+    --line:rgba(201,162,39,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    background:var(--white);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.serif{font-family:'Playfair Display',serif;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+
+  /* ===== Prototype toolbar (not part of live site — orientation only) ===== */
+  .proto-bar{
+    background:var(--maroon-900);
+    color:var(--cream-deep);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.08em;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:9px 22px;
+    position:sticky;
+    top:0;
+    z-index:100;
+    border-bottom:1px solid var(--gold);
+  }
+  .proto-bar .tag{color:var(--gold-light);text-transform:uppercase;}
+  .proto-tabs{display:flex;gap:4px;flex-wrap:wrap;}
+  .proto-tabs button{
+    background:transparent;
+    border:1px solid rgba(201,162,39,0.4);
+    color:var(--cream-deep);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:.05em;
+    padding:5px 10px;
+    cursor:pointer;
+    border-radius:2px;
+    transition:all .15s;
+    text-transform:uppercase;
+  }
+  .proto-tabs button:hover{border-color:var(--gold);color:var(--gold-light);}
+  .proto-tabs button.active{background:var(--gold);color:var(--maroon-900);border-color:var(--gold);}
+
+  /* ===== Site header ===== */
+  .site-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 48px;
+    border-bottom:1px solid var(--line);
+    background:var(--white);
+  }
+  .logo-lockup{display:flex;align-items:center;gap:14px;cursor:pointer;}
+  .logo-mark{
+    font-family:'Playfair Display',serif;
+    font-weight:700;
+    font-size:30px;
+    color:var(--maroon-700);
+    line-height:1;
+  }
+  .logo-divider{width:1px;height:34px;background:var(--gold);}
+  .logo-text-block{line-height:1.15;}
+  .logo-text-block .name{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:15px;
+    letter-spacing:.14em;
+    color:var(--maroon-700);
+    font-weight:500;
+  }
+  .logo-text-block .sub{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:9.5px;
+    letter-spacing:.1em;
+    color:var(--ink-soft);
+    margin-top:3px;
+  }
+  nav.main-nav{display:flex;gap:34px;align-items:center;}
+  nav.main-nav a{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:.06em;
+    color:var(--ink);
+    text-transform:uppercase;
+    padding-bottom:4px;
+    border-bottom:2px solid transparent;
+    transition:all .15s;
+  }
+  nav.main-nav a:hover, nav.main-nav a.active{color:var(--maroon-700);border-bottom-color:var(--gold);}
+  .btn{
+    display:inline-block;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:12px 22px;
+    border:1px solid var(--gold);
+    color:var(--maroon-700);
+    cursor:pointer;
+    background:transparent;
+    transition:all .18s;
+    border-radius:1px;
+  }
+  .btn:hover{background:var(--gold);color:var(--white);}
+  .btn-solid{background:var(--maroon-700);color:var(--white);border-color:var(--maroon-700);}
+  .btn-solid:hover{background:var(--maroon-900);border-color:var(--maroon-900);color:var(--white);}
+  .btn-ghost-light{border-color:var(--gold-light);color:var(--cream-deep);}
+  .btn-ghost-light:hover{background:var(--gold);color:var(--maroon-900);}
+
+  /* ===== Page shell ===== */
+  .page{display:none;}
+  .page.active{display:block;animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  section{padding:80px 48px;}
+  .narrow{max-width:1080px;margin:0 auto;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--gold);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{content:"§";color:var(--maroon-700);font-family:'Playfair Display',serif;}
+  .eyebrow.on-dark{color:var(--gold-light);}
+  h2.section-title{font-size:34px;font-weight:600;color:var(--maroon-700);margin:0 0 16px;line-height:1.2;}
+  p.lede{font-size:17px;color:var(--ink-soft);line-height:1.7;max-width:680px;}
+  hr.gold{border:none;border-top:1px solid var(--line);margin:0;}
+
+  /* ===== Hero (page 1) ===== */
+  .hero{
+    background:var(--cream);
+    padding:100px 48px 90px;
+    border-bottom:1px solid var(--line);
+  }
+  .hero h1{
+    font-size:52px;
+    line-height:1.18;
+    font-weight:600;
+    color:var(--ink);
+    margin:0 0 26px;
+    max-width:780px;
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--maroon-700);
+    font-weight:600;
+  }
+  .hero .lede{margin-bottom:36px;}
+  .hero .cta-row{display:flex;gap:16px;}
+
+  /* ===== Cards / grids ===== */
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:44px;}
+  .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;margin-top:44px;}
+  .stream-card{
+    border:1px solid var(--line);
+    padding:30px 26px;
+    background:var(--white);
+    transition:transform .18s, box-shadow .18s;
+  }
+  .stream-card:hover{transform:translateY(-3px);box-shadow:0 10px 26px -14px rgba(61,7,20,.35);}
+  .stream-card .num{
+    font-family:'Playfair Display',serif;
+    font-size:38px;
+    color:var(--gold);
+    font-weight:600;
+    margin-bottom:10px;
+  }
+  .stream-card h3{font-size:19px;margin:0 0 10px;color:var(--maroon-700);}
+  .stream-card p{font-size:14.5px;color:var(--ink-soft);line-height:1.65;margin:0;}
+
+  .tag-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;}
+  .tag-chip{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    letter-spacing:.04em;
+    padding:8px 15px;
+    background:var(--cream-deep);
+    color:var(--maroon-700);
+    border:1px solid var(--line);
+  }
+
+  .segment-strip{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    margin-top:20px;
+  }
+  .segment-strip span{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:.05em;
+    color:var(--ink-soft);
+    padding:16px 22px;
+    border-right:1px solid var(--line);
+  }
+
+  .cta-banner{
+    background:var(--maroon-900);
+    color:var(--white);
+    padding:70px 48px;
+    text-align:center;
+  }
+  .cta-banner h2{color:var(--white);font-size:30px;margin:0 0 14px;}
+  .cta-banner p{color:var(--cream-deep);max-width:560px;margin:0 auto 30px;font-size:15.5px;line-height:1.7;}
+
+  /* ===== Services page ===== */
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:46px;}
+  .svc-card{
+    border:1px solid var(--line);
+    padding:26px 24px;
+    background:var(--white);
+  }
+  .svc-card .mono-tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    color:var(--gold);
+    letter-spacing:.1em;
+    margin-bottom:10px;
+    display:block;
+  }
+  .svc-card h3{font-size:17px;color:var(--maroon-700);margin:0 0 8px;font-family:'Playfair Display',serif;}
+  .svc-card p{font-size:13.5px;color:var(--ink-soft);line-height:1.6;margin:0 0 12px;}
+  .svc-card .deliv{font-size:11.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:10px;font-style:italic;}
+
+  .quote-box{
+    margin-top:60px;
+    border-left:3px solid var(--gold);
+    padding:8px 0 8px 30px;
+  }
+  .quote-box p{font-family:'Playfair Display',serif;font-style:italic;font-size:22px;color:var(--maroon-700);line-height:1.5;margin:0;}
+
+  /* ===== Pricing page ===== */
+  .price-tier-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:40px;}
+  .price-card{border:1px solid var(--line);background:var(--white);display:flex;flex-direction:column;}
+  .price-card.feature{border-color:var(--gold);box-shadow:0 12px 28px -18px rgba(201,162,39,.6);}
+  .price-card .head{padding:22px 20px;border-bottom:1px solid var(--line);}
+  .price-card .head .tier{font-family:'Playfair Display',serif;font-size:20px;color:var(--maroon-700);margin:0 0 6px;}
+  .price-card .head .fee{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--gold);}
+  .price-card .body{padding:20px;flex:1;}
+  .price-card .body .target{font-size:12px;color:var(--ink-soft);margin-bottom:10px;font-style:italic;}
+  .price-card .body ul{margin:0;padding-left:16px;font-size:12.5px;color:var(--ink-soft);line-height:1.65;}
+
+  table.rate-table{width:100%;border-collapse:collapse;margin-top:24px;font-size:13.5px;}
+  table.rate-table th{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+    text-align:left;color:var(--maroon-700);
+    padding:10px 14px;border-bottom:1px solid var(--gold);
+  }
+  table.rate-table td{padding:12px 14px;border-bottom:1px solid var(--line);color:var(--ink-soft);}
+  table.rate-table tr:hover td{background:var(--cream);}
+
+  .disclaimer{
+    margin-top:40px;
+    font-size:12px;
+    color:var(--ink-soft);
+    border-top:1px solid var(--line);
+    padding-top:16px;
+    font-style:italic;
+  }
+
+  /* ===== Startup page ===== */
+  .startup-hero{
+    background:linear-gradient(135deg,var(--maroon-900),var(--maroon-700));
+    color:var(--white);
+    padding:90px 48px;
+    text-align:center;
+  }
+  .startup-hero .eyebrow2{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;letter-spacing:.16em;color:var(--gold-light);text-transform:uppercase;margin-bottom:18px;
+  }
+  .startup-hero h1{font-size:38px;margin:0 0 18px;color:var(--white);}
+  .startup-hero p.quote{
+    font-family:'Playfair Display',serif;font-style:italic;font-size:20px;
+    color:var(--cream-deep);max-width:640px;margin:0 auto 26px;line-height:1.6;
+  }
+  .startup-hero .price-pill{
+    display:inline-block;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;letter-spacing:.05em;
+    border:1px solid var(--gold);color:var(--gold-light);
+    padding:10px 22px;
+  }
+  .journey{display:flex;justify-content:space-between;margin-top:50px;position:relative;}
+  .journey::before{
+    content:"";position:absolute;top:24px;left:0;right:0;height:1px;background:var(--line);
+  }
+  .journey-step{text-align:center;flex:1;position:relative;padding:0 8px;}
+  .journey-step .dot{
+    width:12px;height:12px;border-radius:50%;background:var(--gold);
+    margin:0 auto 14px;border:3px solid var(--white);box-shadow:0 0 0 1px var(--gold);
+    position:relative;z-index:2;
+  }
+  .journey-step .fee{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--maroon-700);margin-bottom:4px;}
+  .journey-step .lbl{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+  .journey-step .desc{font-size:11.5px;color:var(--ink-soft);}
+
+  table.elig-table{width:100%;border-collapse:collapse;margin-top:24px;font-size:13.5px;}
+  table.elig-table td{padding:11px 14px;border-bottom:1px solid var(--line);}
+  table.elig-table td:first-child{
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--maroon-700);
+    width:220px;letter-spacing:.03em;
+  }
+  table.elig-table td:last-child{color:var(--ink-soft);}
+
+  /* ===== Approach page ===== */
+  .timeline{margin-top:50px;position:relative;padding-left:32px;}
+  .timeline::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:1px;background:var(--line);}
+  .t-item{position:relative;padding-bottom:34px;}
+  .t-item:last-child{padding-bottom:0;}
+  .t-item .marker{
+    position:absolute;left:-32px;top:0;width:13px;height:13px;border-radius:50%;
+    background:var(--white);border:2px solid var(--gold);
+  }
+  .t-item .step-num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:.08em;margin-bottom:4px;}
+  .t-item h3{font-size:17px;color:var(--maroon-700);margin:0 0 6px;font-family:'Playfair Display',serif;}
+  .t-item p{font-size:13.5px;color:var(--ink-soft);margin:0;line-height:1.6;max-width:560px;}
+
+  .values-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:20px;}
+  .value-card{border:1px solid var(--line);padding:20px 18px;background:var(--cream);}
+  .value-card h4{font-size:14px;color:var(--maroon-700);margin:0 0 8px;font-family:'Playfair Display',serif;}
+  .value-card p{font-size:12px;color:var(--ink-soft);margin:0;line-height:1.55;}
+
+  .vm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:10px;}
+  .vm-card{padding:26px 0;}
+  .vm-card .lbl{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:.1em;margin-bottom:10px;text-transform:uppercase;}
+  .vm-card p{font-size:14px;color:var(--ink-soft);line-height:1.65;}
+
+  /* ===== Contact page ===== */
+  .contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;margin-top:44px;}
+  form.mock-form{display:flex;flex-direction:column;gap:18px;}
+  .field label{
+    display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--maroon-700);margin-bottom:7px;
+  }
+  .field input, .field select, .field textarea{
+    width:100%;border:1px solid var(--line);padding:12px 14px;font-family:'Inter',sans-serif;
+    font-size:13.5px;color:var(--ink);background:var(--white);outline:none;transition:border-color .15s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--gold);}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+
+  .contact-panel{border-left:1px solid var(--line);padding-left:44px;}
+  .contact-panel .ci{margin-bottom:26px;}
+  .contact-panel .ci .k{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
+  .contact-panel .ci .v{font-size:14.5px;color:var(--ink);}
+
+  /* ===== Site footer ===== */
+  footer.site-footer{
+    background:var(--maroon-900);
+    color:var(--cream-deep);
+    padding:56px 48px 28px;
+  }
+  .foot-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;padding-bottom:36px;border-bottom:1px solid rgba(201,162,39,.25);}
+  .foot-brand .logo-mark{color:var(--gold-light);}
+  .foot-brand .logo-text-block .name{color:var(--white);}
+  .foot-brand .logo-text-block .sub{color:var(--cream-deep);}
+  .foot-brand p{font-size:12.5px;color:var(--cream-deep);opacity:.75;max-width:280px;margin-top:16px;line-height:1.6;}
+  .foot-col h5{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--gold-light);margin:0 0 16px;
+  }
+  .foot-col a{display:block;font-size:13px;color:var(--cream-deep);opacity:.85;margin-bottom:10px;}
+  .foot-col a:hover{color:var(--gold-light);}
+  .foot-bottom{display:flex;justify-content:space-between;padding-top:22px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(251,246,234,.55);}
+
+  @media(max-width:1000px){
+    .grid-3,.svc-grid,.price-tier-grid,.values-grid,.vm-grid{grid-template-columns:repeat(2,1fr);}
+    .contact-grid{grid-template-columns:1fr;}
+    .journey{flex-direction:column;gap:24px;}
+    .journey::before{display:none;}
+    nav.main-nav{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= PROTOTYPE ORIENTATION BAR (mockup aid, not part of live site) ================= -->
+<div class="proto-bar">
+  <span class="tag">Website Design Mockup — JB Consulting · Maroon &amp; Gold</span>
+  <div class="proto-tabs">
+    <button data-page="1" class="active">1 · Overview</button>
+    <button data-page="2">2 · Services</button>
+    <button data-page="3">3 · Pricing</button>
+    <button data-page="4">4 · Startup Programme</button>
+    <button data-page="5">5 · Approach</button>
+    <button data-page="6">6 · Contact</button>
+  </div>
+</div>
+
+<!-- ================= SITE HEADER ================= -->
+<header class="site-header">
+  <div class="logo-lockup" data-page="1">
+    <div class="logo-mark">JB</div>
+    <div class="logo-divider"></div>
+    <div class="logo-text-block">
+      <div class="name">CONSULTING</div>
+      <div class="sub">RISK MANAGEMENT CONSULTANTS</div>
+    </div>
+  </div>
+  <nav class="main-nav">
+    <a data-page="1" class="active">Overview</a>
+    <a data-page="2">Services</a>
+    <a data-page="3">Pricing</a>
+    <a data-page="4">Startup Programme</a>
+    <a data-page="5">Approach</a>
+    <a data-page="6">Contact</a>
+  </nav>
+  <button class="btn btn-solid" data-page="6">Book Discovery Call</button>
+</header>
+
+<!-- ================= PAGE 1 — OVERVIEW ================= -->
+<div class="page active" id="page-1">
+  <section class="hero">
+    <div class="narrow">
+      <div class="eyebrow">GOVERNANCE · RISK · COMPLIANCE ADVISORY</div>
+      <h1>Strengthening governance.<br>Managing risk.<br><em>Enabling compliance.</em></h1>
+      <p class="lede">Practical, outsourced GRC support for South African SMEs and regulated financial services businesses — built to convert regulatory requirements into working controls, registers and evidence, not just paperwork.</p>
+      <div class="cta-row">
+        <button class="btn btn-solid" data-page="6">Book a Discovery Call</button>
+        <button class="btn" data-page="2">View Our Services</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="narrow">
+    <div class="eyebrow">PRACTICAL GRC FOR GROWING &amp; REGULATED BUSINESSES</div>
+    <h2 class="section-title">Not just policies.</h2>
+    <p class="lede">Governance, risk and compliance requirements become more complex as a business grows — but many SMEs and smaller regulated businesses don't require, or can't yet justify, a full internal GRC team. JB Consulting closes that gap: converting regulatory obligations into workable processes, controls, registers, monitoring routines and management information.</p>
+    <div class="tag-row">
+      <span class="tag-chip">◆ Controls</span>
+      <span class="tag-chip">◆ Registers</span>
+      <span class="tag-chip">◆ Evidence</span>
+      <span class="tag-chip">◆ Accountability</span>
+      <span class="tag-chip">◆ Responsibilities</span>
+      <span class="tag-chip">◆ Monitoring</span>
+      <span class="tag-chip">◆ Management Reporting</span>
+    </div>
+  </section>
+
+  <section class="narrow">
+    <div class="eyebrow">THREE-STREAM REVENUE ARCHITECTURE</div>
+    <h2 class="section-title">One outsourced GRC partner, three ways to engage.</h2>
+    <div class="grid-3">
+      <div class="stream-card">
+        <div class="num">01</div>
+        <h3>Recurring Retainers</h3>
+        <p>Predictable monthly income from Bronze, Silver, Gold and Enterprise packages — the stability foundation of an ongoing GRC relationship.</p>
+      </div>
+      <div class="stream-card">
+        <div class="num">02</div>
+        <h3>Professional Services</h3>
+        <p>Hourly advisory and prepaid bundles for policy reviews, process mapping, gap analyses, training and remediation — scalable without growing headcount.</p>
+      </div>
+      <div class="stream-card">
+        <div class="num">03</div>
+        <h3>Licensing Projects</h3>
+        <p>Fixed-fee regulatory licensing and implementation engagements — from FSP applications to POPIA and AI governance builds.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="narrow" style="padding-top:0;">
+    <div class="eyebrow">WHO WE WORK WITH</div>
+    <div class="segment-strip">
+      <span>Category I FSPs</span>
+      <span>Debt Counsellors</span>
+      <span>Credit Providers</span>
+      <span>Insurance Intermediaries</span>
+      <span>Wealth Managers</span>
+      <span>SMEs &amp; Professional Firms</span>
+      <span>Legal &amp; Accounting Practices</span>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <div class="eyebrow on-dark" style="justify-content:center;">FREE 30-MINUTE CONSULTATION</div>
+    <h2>Let's understand your GRC needs.</h2>
+    <p>Book a complimentary Discovery Call. We'll discuss your business structure, regulatory exposure and current governance, risk and compliance challenges, then recommend a practical scope of support aligned to your stage of growth.</p>
+    <button class="btn btn-ghost-light" data-page="6">Book a Discovery Call</button>
+  </section>
+</div>
+
+<!-- ================= PAGE 2 — SERVICES ================= -->
+<div class="page" id="page-2">
+  <section class="narrow" style="padding-top:60px;">
+    <div class="eyebrow">OUR CORE SERVICE LINES</div>
+    <h2 class="section-title">An outsourced GRC partner, not a compliance administrator.</h2>
+    <p class="lede">Service is risk-based — higher-risk clients receive deeper reviews and more frequent monitoring. Access services through retainer packages, professional services bundles, or standalone licensing projects.</p>
+
+    <div class="svc-grid">
+      <div class="svc-card"><span class="mono-tag">01 · OVERSIGHT</span><h3>Outsourced Compliance Officer</h3><p>Structured compliance oversight, periodic reporting and defensible evidence of ongoing compliance activity.</p><div class="deliv">Compliance plan · monitoring programme · breach register · action tracker</div></div>
+      <div class="svc-card"><span class="mono-tag">02 · KI SUPPORT</span><h3>Key Individual Support</h3><p>Oversight frameworks supporting KI responsibilities without replacing statutory accountability.</p><div class="deliv">KI role profile · supervision framework · CPD register · dashboard</div></div>
+      <div class="svc-card"><span class="mono-tag">03 · AML/CFT</span><h3>MLCO / FICA Support</h3><p>Practical AML/CFT frameworks proportionate to risk profile per FIC Act requirements.</p><div class="deliv">Business risk assessment · RMCP · CDD/EDD templates · PEP &amp; sanctions process</div></div>
+      <div class="svc-card"><span class="mono-tag">04 · ERM</span><h3>Risk Management</h3><p>ISO 31000 and King IV aligned frameworks embedding risk into decision-making.</p><div class="deliv">Risk framework · appetite statement · risk register · KRIs · quarterly report</div></div>
+      <div class="svc-card"><span class="mono-tag">05 · PRIVACY</span><h3>POPIA Consulting</h3><p>Privacy governance, data mapping and Information Officer support.</p><div class="deliv">Privacy notice · PAIA manual · information asset register · breach register</div></div>
+      <div class="svc-card"><span class="mono-tag">06 · GOVERNANCE</span><h3>Governance Consulting</h3><p>Board, management and SME governance frameworks using King IV principles.</p><div class="deliv">Governance charter · delegation of authority · ethics policy · annual review</div></div>
+      <div class="svc-card"><span class="mono-tag">07 · ASSURANCE</span><h3>Internal Audit Support</h3><p>Independent review and control testing for selected processes.</p><div class="deliv">Audit plan · testing checklist · findings report · corrective action register</div></div>
+      <div class="svc-card"><span class="mono-tag">08 · MONITORING</span><h3>Compliance Monitoring</h3><p>Structured reviews of files, calls, processes and regulatory evidence.</p><div class="deliv">Monitoring schedule · sample plan · findings register · remediation plan</div></div>
+      <div class="svc-card"><span class="mono-tag">09 · PROCESS</span><h3>Business Process Mapping</h3><p>Documentation and improvement of operating processes and controls.</p><div class="deliv">Process maps · SOPs · RACI matrix · control points</div></div>
+      <div class="svc-card"><span class="mono-tag">10 · AI GOVERNANCE</span><h3>AI Monitoring &amp; Governance</h3><p>Responsible AI and automation oversight, including use case registers and risk assessments.</p><div class="deliv">AI use case register · AI risk assessment · human review protocol</div></div>
+      <div class="svc-card"><span class="mono-tag">11 · POLICY</span><h3>Policy Development</h3><p>Drafting and periodic review of governance, compliance and operational policies.</p><div class="deliv">Policy framework · individual policies · review register · approvals</div></div>
+      <div class="svc-card" style="background:var(--maroon-700);border-color:var(--maroon-700);">
+        <span class="mono-tag" style="color:var(--gold-light);">12 · LICENSING</span>
+        <h3 style="color:var(--white);">Regulatory Licensing Support</h3>
+        <p style="color:var(--cream-deep);">Structured support for FSP applications, licensing projects and implementation requirements.</p>
+        <button class="btn btn-ghost-light" data-page="3" style="margin-top:6px;">See Pricing</button>
+      </div>
+    </div>
+
+    <div class="quote-box">
+      <p>"For SMEs and regulated businesses that need governance, risk and compliance support without a full internal team — practical frameworks, monitoring routines, policies, reports and AI-enabled oversight that help clients stay ready, controlled and accountable."</p>
+    </div>
+  </section>
+</div>
+
+<!-- ================= PAGE 3 — PRICING ================= -->
+<div class="page" id="page-3">
+  <section class="narrow" style="padding-top:60px;">
+    <div class="eyebrow">STREAM 1 · RECURRING RETAINER PACKAGES</div>
+    <h2 class="section-title">Pricing that scales with your risk profile.</h2>
+    <p class="lede">Four tiers of ongoing outsourced GRC support — from foundational structure to fully integrated, multi-entity oversight.</p>
+
+    <div class="price-tier-grid">
+      <div class="price-card">
+        <div class="head"><div class="tier">Bronze</div><div class="fee">R4,500 – R7,500 / mo</div></div>
+        <div class="body">
+          <div class="target">Small SME or FSP needing basic structure</div>
+          <ul><li>Quarterly compliance check-in</li><li>Basic registers</li><li>Annual policy review</li><li>Limited email support</li><li>One quarterly report</li></ul>
+        </div>
+      </div>
+      <div class="price-card">
+        <div class="head"><div class="tier">Silver</div><div class="fee">R8,000 – R15,000 / mo</div></div>
+        <div class="body">
+          <div class="target">Growing FSP, adviser practice, debt-related SME</div>
+          <ul><li>Monthly compliance meeting</li><li>Monitoring schedule</li><li>Action register</li><li>Policy support</li><li>Complaints review &amp; report</li></ul>
+        </div>
+      </div>
+      <div class="price-card feature">
+        <div class="head"><div class="tier">Gold</div><div class="fee">R18,000 – R35,000 / mo</div></div>
+        <div class="body">
+          <div class="target">Established FSP or multi-function client</div>
+          <ul><li>Monthly monitoring</li><li>Risk register</li><li>Quarterly governance review</li><li>Board/management report</li><li>FICA/POPIA support &amp; control testing</li></ul>
+        </div>
+      </div>
+      <div class="price-card">
+        <div class="head"><div class="tier">Enterprise</div><div class="fee">R40,000+ / mo</div></div>
+        <div class="body">
+          <div class="target">Multi-entity or high-complexity client</div>
+          <ul><li>Integrated GRC support</li><li>Multiple service lines</li><li>Senior advisory</li><li>AI governance &amp; internal audit</li><li>Annual health check</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="eyebrow" style="margin-top:64px;">STREAM 2 · PROFESSIONAL SERVICES</div>
+    <h2 class="section-title" style="font-size:26px;">Standard Consulting Rate — R500 / hour</h2>
+    <p class="lede" style="font-size:14.5px;">Applicable to policy reviews and drafting, process mapping, SOP development, governance framework design, gap analyses, monitoring, internal audit support, remediation, POPIA/FICA/MLCO services, regulatory advice, and board or staff training.</p>
+    <table class="rate-table">
+      <tr><th>Package</th><th>Hours</th><th>Rate</th><th>Total / Saving</th></tr>
+      <tr><td>Standard (as needed)</td><td>Any</td><td>R500/hr</td><td>Variable</td></tr>
+      <tr><td>10-Hour Bundle</td><td>10</td><td>R450/hr</td><td>R4,500 — 10% saving</td></tr>
+      <tr><td>20-Hour Bundle</td><td>20</td><td>R425/hr</td><td>R8,500 — 15% saving</td></tr>
+    </table>
+
+    <div class="eyebrow" style="margin-top:64px;">STREAM 3 · REGULATORY LICENSING PROJECTS</div>
+    <h2 class="section-title" style="font-size:26px;">Fixed fees for cost certainty.</h2>
+    <table class="rate-table">
+      <tr><th>Service</th><th>Fee</th></tr>
+      <tr><td>New Category I FSP Licence Application</td><td>R10,000 fixed fee (~20 hrs)</td></tr>
+      <tr><td>Representative registration</td><td>R500</td></tr>
+      <tr><td>Key Individual application</td><td>R2,500</td></tr>
+      <tr><td>Class of Business additions</td><td>R2,500</td></tr>
+      <tr><td>Licence amendments</td><td>From R2,500</td></tr>
+      <tr><td>Annual compliance health check</td><td>R5,000</td></tr>
+      <tr><td>Governance maturity assessment</td><td>R7,500</td></tr>
+      <tr><td>Enterprise risk assessment</td><td>R10,000</td></tr>
+      <tr><td>RMCP development</td><td>R12,000 – R40,000</td></tr>
+      <tr><td>POPIA implementation pack</td><td>R10,000 – R35,000</td></tr>
+      <tr><td>AI governance setup</td><td>R15,000 – R60,000</td></tr>
+    </table>
+
+    <p class="disclaimer">Indicative pricing only — final scope, frequency and fees are confirmed in a proposal and engagement letter following a Discovery Call, and are proportionate to client complexity and risk profile. Excludes FSCA application fees, legal drafting, formal legal opinions and external audits.</p>
+  </section>
+</div>
+
+<!-- ================= PAGE 4 — STARTUP PROGRAMME ================= -->
+<div class="page" id="page-4">
+  <div class="startup-hero">
+    <div class="eyebrow2">STARTING A BUSINESS?</div>
+    <h1>The Startup GRC Programme</h1>
+    <p class="quote">"Practical GRC foundations for growing businesses — structured for where you are now, and designed to scale with you."</p>
+    <div class="price-pill">From R2,500 / month</div>
+  </div>
+
+  <section class="narrow">
+    <p class="lede">Designed for qualifying early-stage businesses requiring foundational governance, risk and compliance support — without the cost of a full internal GRC function. Startup pricing is a distinct service model, not an unrestricted discount: scope, frequency and deliverables are proportionate to your business's maturity and risk profile.</p>
+
+    <div class="eyebrow" style="margin-top:44px;">INDICATIVE STARTUP PACKAGES</div>
+    <div class="grid-2">
+      <div class="stream-card">
+        <h3>Startup Foundation</h3>
+        <div class="mono" style="color:var(--gold);font-size:13px;margin-bottom:10px;">From R2,500 / month</div>
+        <p>Initial regulatory needs assessment, core compliance calendar, basic risk and action registers, quarterly GRC check-in, annual core policy review, limited email support, one quarterly status report.</p>
+      </div>
+      <div class="stream-card">
+        <h3>Startup Plus</h3>
+        <div class="mono" style="color:var(--gold);font-size:13px;margin-bottom:10px;">From R3,500 / month</div>
+        <p>Foundation scope plus a monthly check-in, proportionate monitoring schedule, complaints/action review, selected policy support and management reporting.</p>
+      </div>
+    </div>
+
+    <div class="eyebrow" style="margin-top:60px;">YOUR PATH AS YOU GROW</div>
+    <h2 class="section-title" style="font-size:26px;">A structured pathway into higher-value retained services.</h2>
+    <div class="journey">
+      <div class="journey-step"><div class="dot"></div><div class="fee">R2,250 – R3,750</div><div class="lbl">Startup</div><div class="desc">Early-stage, single-entity, foundational GRC</div></div>
+      <div class="journey-step"><div class="dot"></div><div class="fee">R8,000 – R15,000</div><div class="lbl">Growth</div><div class="desc">Recurring compliance &amp; monitoring support</div></div>
+      <div class="journey-step"><div class="dot"></div><div class="fee">R18,000 – R35,000</div><div class="lbl">Established</div><div class="desc">Integrated risk, compliance &amp; governance</div></div>
+      <div class="journey-step"><div class="dot"></div><div class="fee">R40,000+</div><div class="lbl">Enterprise</div><div class="desc">Multi-entity, fully outsourced GRC</div></div>
+    </div>
+
+    <div class="eyebrow" style="margin-top:60px;">ELIGIBILITY &amp; PROGRAMME CONTROLS</div>
+    <table class="elig-table">
+      <tr><td>Business maturity</td><td>Generally less than 24 months in operation</td></tr>
+      <tr><td>Entity complexity</td><td>Single entity unless specifically approved</td></tr>
+      <tr><td>Regulatory complexity</td><td>Low to moderate; high-risk or complex mandates separately scoped</td></tr>
+      <tr><td>Programme duration</td><td>Maximum 12 months at startup pricing</td></tr>
+      <tr><td>Migration</td><td>Formal review and transition to Growth pricing at programme end</td></tr>
+      <tr><td>Additional work</td><td>Professional services rate or prepaid bundle applies</td></tr>
+    </table>
+
+    <div style="text-align:center;margin-top:56px;">
+      <button class="btn btn-solid" data-page="6">Book a Discovery Call</button>
+    </div>
+  </section>
+</div>
+
+<!-- ================= PAGE 5 — APPROACH ================= -->
+<div class="page" id="page-5">
+  <section class="narrow" style="padding-top:60px;">
+    <div class="eyebrow">HOW WE ENGAGE</div>
+    <h2 class="section-title">From first conversation to renewal.</h2>
+    <p class="lede">A consistent, risk-based process that turns a discovery conversation into a defensible, ongoing GRC partnership.</p>
+
+    <div class="timeline">
+      <div class="t-item"><div class="marker"></div><div class="step-num">STEP 01</div><h3>Lead Generation</h3><p>Prospects attracted through referrals, LinkedIn and the website.</p></div>
+      <div class="t-item"><div class="marker"></div><div class="step-num">STEP 02</div><h3>Discovery Call</h3><p>A complimentary 30-minute conversation to understand your business model, regulatory exposure and pain points.</p></div>
+      <div class="t-item"><div class="marker"></div><div class="step-num">STEP 03</div><h3>Needs Assessment</h3><p>Regulatory obligations and service scope are identified and summarised.</p></div>
+      <div class="t-item"><div class="marker"></div><div class="step-num">STEP 04</div><h3>Proposal</h3><p>A professional proposal setting out package, scope, price and timeline.</p></div>
+      <div class="t-item"><div class="marker"></div><div class="step-num">STEP 05</div><h3>Engagement Letter</h3><p>Scope, exclusions, fees and confidentiality are confirmed in writing.</p></div>
+      <div class="t-item"><div class="marker"></div><div class="step-num">STEP 06</div><h3>Onboarding</h3><p>Documents are collected and your client file structure is set up.</p></div>
+      <div class="t-item"><div class="marker"></div><div class="step-num">STEP 07</div><h3>Delivery</h3><p>Services, monitoring and reporting are implemented — reports, registers, policies and action plans.</p></div>
+      <div class="t-item"><div class="marker"></div><div class="step-num">STEP 08</div><h3>Renewal / Upsell</h3><p>Value is reviewed and scope expanded where appropriate as your business grows.</p></div>
+    </div>
+  </section>
+
+  <section class="narrow" style="background:var(--cream);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+    <div class="eyebrow">VISION · MISSION · PURPOSE</div>
+    <div class="vm-grid">
+      <div class="vm-card"><div class="lbl">Vision</div><p>To become the trusted boutique South African GRC advisory practice known for practical governance, defensible compliance, risk-based thinking and responsible AI-enabled monitoring.</p></div>
+      <div class="vm-card"><div class="lbl">Mission</div><p>To help clients strengthen governance, manage risk and enable compliance by translating obligations into practical frameworks, policies, controls and decision-ready insights.</p></div>
+      <div class="vm-card"><div class="lbl">Purpose</div><p>To reduce the governance and compliance burden on smaller businesses by giving them access to professional-grade, affordable and scalable GRC support.</p></div>
+    </div>
+  </section>
+
+  <section class="narrow">
+    <div class="eyebrow">CORE VALUES</div>
+    <div class="values-grid">
+      <div class="value-card"><h4>Integrity</h4><p>Advice and deliverables that are honest, defensible and aligned to professional standards.</p></div>
+      <div class="value-card"><h4>Practicality</h4><p>Converting rules and frameworks into workable processes, controls and documents.</p></div>
+      <div class="value-card"><h4>Accountability</h4><p>Defined owners, due dates, evidence, escalation points and review cycles.</p></div>
+      <div class="value-card"><h4>Confidentiality</h4><p>Protecting client information, commercial sensitivity and personal information.</p></div>
+      <div class="value-card"><h4>Independence</h4><p>Objective findings, avoiding conflicts that compromise judgement.</p></div>
+      <div class="value-card"><h4>Continuous Improvement</h4><p>Reviewing and refining frameworks, controls and service delivery over time.</p></div>
+      <div class="value-card"><h4>Responsible Innovation</h4><p>Using AI and automation carefully, with human review and governance controls.</p></div>
+      <div class="value-card" style="background:var(--maroon-700);border-color:var(--maroon-700);"><h4 style="color:var(--gold-light);">Ready to talk?</h4><p style="color:var(--cream-deep);">Book a Discovery Call and see this approach in action.</p></div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= PAGE 6 — CONTACT ================= -->
+<div class="page" id="page-6">
+  <section class="narrow" style="padding-top:60px;">
+    <div class="eyebrow">GET IN TOUCH</div>
+    <h2 class="section-title">Let's understand your GRC needs.</h2>
+    <p class="lede">Book a complimentary 30-minute Discovery Call. We'll discuss your business structure, regulatory exposure and current governance, risk and compliance challenges, and — where appropriate — recommend a practical scope of support aligned to your business's needs and stage of growth.</p>
+
+    <div class="contact-grid">
+      <form class="mock-form">
+        <div class="field-row">
+          <div class="field"><label>Full Name</label><input type="text" placeholder="Jane Botha"></div>
+          <div class="field"><label>Company</label><input type="text" placeholder="Your business name"></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Email</label><input type="email" placeholder="you@company.co.za"></div>
+          <div class="field"><label>Phone</label><input type="text" placeholder="+27 XX XXX XXXX"></div>
+        </div>
+        <div class="field">
+          <label>Entity Type</label>
+          <select>
+            <option>Category I FSP</option>
+            <option>Debt Counsellor</option>
+            <option>Credit Provider</option>
+            <option>Insurance Intermediary</option>
+            <option>Wealth Manager</option>
+            <option>SME / Professional Firm</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field"><label>Tell us about your GRC needs</label><textarea rows="4" placeholder="A brief note on your business and current compliance challenges..."></textarea></div>
+        <button type="button" class="btn btn-solid" style="align-self:flex-start;margin-top:6px;">Book My Discovery Call</button>
+      </form>
+
+      <div class="contact-panel">
+        <div class="ci"><div class="k">Website</div><div class="v">www.jbconsulting.co.za</div></div>
+        <div class="ci"><div class="k">Coverage</div><div class="v">South Africa — remote &amp; on-site delivery</div></div>
+        <div class="ci"><div class="k">Practice Areas</div><div class="v">Governance · Risk · Compliance · AI Governance Advisory</div></div>
+        <div class="ci"><div class="k">Response Time</div><div class="v">Within 1 business day</div></div>
+        <hr class="gold" style="margin:26px 0;">
+        <div class="ci"><div class="k">Full Name</div><div class="v">JB Risk Management Consultants<br>t/a JB Consulting</div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= SITE FOOTER ================= -->
+<footer class="site-footer">
+  <div class="foot-top">
+    <div class="foot-brand">
+      <div class="logo-lockup">
+        <div class="logo-mark">JB</div>
+        <div class="logo-divider" style="background:var(--gold-light);"></div>
+        <div class="logo-text-block">
+          <div class="name">CONSULTING</div>
+          <div class="sub">RISK MANAGEMENT CONSULTANTS</div>
+        </div>
+      </div>
+      <p>Strengthening Governance. Managing Risk. Enabling Compliance. Practical, outsourced GRC support for South African SMEs and regulated businesses.</p>
+    </div>
+    <div class="foot-col">
+      <h5>Navigate</h5>
+      <a data-page="1">Overview</a>
+      <a data-page="2">Services</a>
+      <a data-page="3">Pricing</a>
+      <a data-page="4">Startup Programme</a>
+    </div>
+    <div class="foot-col">
+      <h5>Practice</h5>
+      <a data-page="5">Our Approach</a>
+      <a data-page="6">Book a Discovery Call</a>
+    </div>
+    <div class="foot-col">
+      <h5>Get In Touch</h5>
+      <a>www.jbconsulting.co.za</a>
+      <a>South Africa · GRC Advisory</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 JB Risk Management Consultants t/a JB Consulting</span>
+    <span>GOVERNANCE · RISK · COMPLIANCE · AI GOVERNANCE ADVISORY</span>
+  </div>
+</footer>
+
+<script>
+  const pages = document.querySelectorAll('.page');
+  const protoBtns = document.querySelectorAll('.proto-tabs button');
+  const navLinks = document.querySelectorAll('nav.main-nav a');
+
+  function goToPage(n){
+    pages.forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + n).classList.add('active');
+    protoBtns.forEach(b => b.classList.toggle('active', b.dataset.page === String(n)));
+    navLinks.forEach(a => a.classList.toggle('active', a.dataset.page === String(n)));
+    window.scrollTo({top:0, behavior:'instant'});
+  }
+
+  document.querySelectorAll('[data-page]').forEach(el => {
+    el.addEventListener('click', () => goToPage(el.dataset.page));
+  });
+</script>
+
+</body>
+</html>
